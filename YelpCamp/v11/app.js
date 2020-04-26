@@ -31,7 +31,9 @@ mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 mongoose.set('useUnifiedTopology', true);
 
-mongoose.connect("mongodb://localhost/YelpCamp");
+// mongoose.connect("mongodb://localhost/YelpCamp");
+mongoose.connect(process.env.DATABASEURL);
+
 
 app.use(bp.urlencoded({extended: true}));
 app.use(flash());
@@ -39,7 +41,6 @@ app.use(flash());
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
 //console.log(__dirname); returns /workspace/Porjects/YelpCamp/v5
-
 
 
 
@@ -80,6 +81,6 @@ app.use("/campgrounds/:id/comments", commentRoutes);
 
 
 
-app.listen(3000, function() {
+app.listen(process.env.PORT || 3000, process.env.IP, function() {
 	console.log("YelpCamp is running");
 });
