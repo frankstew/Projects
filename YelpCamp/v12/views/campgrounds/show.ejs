@@ -1,0 +1,137 @@
+<%- include("../partials/header.ejs"); %>
+
+
+<a class="btn btn-default" href="/campgrounds">Back to campgrounds</a>
+<div class="container">
+	<div class="row">
+		<div class="col-md-3">
+			<p class="lead">YelpCamp</p>
+			<div class="list-group">
+				<li class="list-group-item active">infor 1</li>
+				<li class="list-group-item">infor 1</li>
+				<li class="list-group-item">infor 1</li>
+			</div>
+					<!-- MAPS API ADDING A MAP -->
+			<div id="map"></div>
+			<div><button class="btn btn-info" id="directions">Directions</button></div>
+			
+		</div>
+		<div class="col-md-9">
+			<div class="thumbnail">
+				<img class="image-responsive" src="<%= campground.img %>">
+				<div class="caption-full">
+					
+					<h4 class="pull-right">$<%= campground.price %>/night</h4>
+					<h4><a href=""><%= campground.name %></a></h4>
+					<p><%= campground.description; %></p>
+					<p><em>Submitted by <%=campground.author.username%></em></p>
+					
+					<% if (currentUser && campground.author.id.equals(currentUser._id)) { %>
+					<a href="/campgrounds/<%= campground._id %>/edit" class=" btn btn-primary"> Edit <%= campground.name %></a>
+					<form action="/campgrounds/<%= campground._id %>/?_method=DELETE" method="POST" class="delete-form">
+						<button class="btn btn-danger">Delete <%=campground.name %></button>
+					</form>
+
+					<% } %>
+				</div>
+			</div>
+			<div class="well">
+				<div class="text-right">
+					<a  class="btn btn-success" href="/campgrounds/<%= campground._id %>/comments/new">Leave a review</a>
+				</div>
+				<hr>
+				<%for (var i = 0; i < campground.comments.length; i++) { %>
+					<div class="row">
+						<div class="col-md-12">
+							<strong><%= campground.comments[i].author.username %></strong>
+							<span class="pull-right">10 days ago</span>
+							<p><%= campground.comments[i].text %></p>
+							<% if (currentUser && campground.comments[i].author.id.equals(currentUser._id)) { %>
+							<a href="/campgrounds/<%= campground._id %>/comments/<%= campground.comments[i]._id %>/edit"><button class="btn btn-xs btn-warning">edit</button></a>
+							<form action="/campgrounds/<%= campground._id %>/comments/<%= campground.comments[i]._id %>?_method=DELETE" method="POST" class="delete-form">
+								<button class="btn btn-xs btn-danger">Delete</button>
+							</form>
+							<% } %>
+						
+						</div>
+					</div>
+					<h3>
+						
+					</h3>
+
+					
+				<% } %>
+			</div>
+			
+			
+		</div>
+	</div>
+
+
+</div>
+<!-- MAPS SCRIPT -->
+<script>
+	var map;
+	var coords = {lat: <%= campground.latitude %>, lng: <%= campground.longitude %>}; // need to get lat lng from address
+	var address = "<%= campground.address %>";
+	var userLat = <%= userLat %>;
+	var userLng = <%= userLng %>;
+
+	
+	function initMap() {
+		// gets directions rendered on a map
+	  	
+		var directionsService = new google.maps.DirectionsService();
+		var directionsRenderer = new google.maps.DirectionsRenderer();
+
+		// sets up map initially
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 7,
+          center: coords
+		});
+		
+		// binding renderer to map
+        directionsRenderer.setMap(map);
+
+		// calling function to calculate and show map
+        var onClick = function() {
+          calculateAndDisplayRoute(directionsService, directionsRenderer);
+		};
+		
+		//make button under map useful
+		document.getElementById("directions").addEventListener("click", onClick);
+		
+		// add a marker to map for initial showing of campground
+		var marker = new google.maps.Marker({
+			position: coords,
+			map: map,
+			title: "<%= campground.name %>"
+		});
+        
+	  }
+	  
+		
+	  function calculateAndDisplayRoute(directionsService, directionsRenderer) {
+		// .route
+		directionsService.route(
+            {
+				// get ZERO_RESULTS unless origin and destination are both legit places, like cities
+              origin: new google.maps.LatLng(userLat, userLng), // chicago
+              destination: {query: address},
+              travelMode: 'DRIVING'
+            },
+            function(response, status) {
+              if (status === 'OK') {
+				  // set directions
+                directionsRenderer.setDirections(response);
+              } else {
+                window.alert('Directions request failed due to ' + status);
+              }
+            });
+      }
+
+		
+  </script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyASehAPdRjP1pgGppUOQDT9Unu6C0FQ8PA&callback=initMap">
+
+<%- include("../partials/footer.ejs"); %>

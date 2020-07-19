@@ -1,0 +1,33 @@
+body {
+	background: grey;
+}
+
+.thumbnail img{
+	width: 100%;
+}
+
+.thumbnail {
+	padding: 0;
+}
+
+.thumbnail .caption-full {
+	padding: 9px;
+}
+
+.delete-form {
+	display: inline;
+}
+
+/* FOR MAPS API */
+	/* Always set the map height explicitly to define the size of the div
+	 * element that contains the map. */
+#map {
+  height: 40rem;
+  width: 100%;
+}
+	/* Optional: Makes the sample page fill the window. */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
