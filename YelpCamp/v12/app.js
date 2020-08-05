@@ -16,6 +16,7 @@ var express    		= require("express"),
 	flash 			= require("connect-flash"),
 	request			= require("request"),
 	rp 				= require("request-promise-any");
+  require('dotenv').config()
 
 	
 
@@ -34,7 +35,7 @@ mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 mongoose.set('useUnifiedTopology', true);
 
-mongoose.connect("mongodb://localhost/YelpCamp");
+mongoose.connect(process.env.DB_URI);
 
 app.use(bp.urlencoded({extended: true}));
 app.use(flash());

@@ -5,6 +5,8 @@ var Comment = require("../models/comment.js");
 var Middleware = require("../middleware/index.js");
 var request = require("request");
 var rp = require("request-promise-any");
+require('dotenv').config()
+
 
 //==================================
 // CAMPGROUND ROUTES
@@ -45,7 +47,7 @@ router.post("/", Middleware.isLoggedIn, async (req, res) => {
 		//do nothing
 	} else if (newAddress) {
 		// forward geocode to get coordinates for campground
-		var urlForwardGeocoding = "https://maps.googleapis.com/maps/api/geocode/json?address=" + formattedAddress + "&key=AIzaSyASehAPdRjP1pgGppUOQDT9Unu6C0FQ8PA";
+		var urlForwardGeocoding = "https://maps.googleapis.com/maps/api/geocode/json?address=" + formattedAddress + "&key=" + process.env.MAPS_API_KEY;
 
 		var [forwardCodingError, forwardCodingResponse, forwardCodingBody] = await captureRequestData(urlForwardGeocoding, "GET"); // geocoding
 		if (!forwardCodingError && forwardCodingResponse.statusCode === 200) {
@@ -61,7 +63,7 @@ router.post("/", Middleware.isLoggedIn, async (req, res) => {
 	} else if (newLat && newLong) {
 		
 		// reverse geocode to get address for campground
-		var urlReverseGeocoding = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + newLat + "," + newLong + "&key=AIzaSyASehAPdRjP1pgGppUOQDT9Unu6C0FQ8PA";
+		var urlReverseGeocoding = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + newLat + "," + newLong + "&key=" + process.env.MAPS_API_KEY;
 
 		var [reverseCodingError, reverseCodingResponse, reverseCodingBody] = await captureRequestData(urlReverseGeocoding, "GET"); // geocoding
 		if (!reverseCodingError && reverseCodingResponse.statusCode === 200) {
@@ -114,16 +116,18 @@ router.get("/:id", async (req, res) => {
 	try {
 
 		var foundCampground = await Campground.findOne({_id: req.params.id}).populate("comments").exec();
-		var urlGeolocating = "https://www.googleapis.com/geolocation/v1/geolocate?&key=AIzaSyASehAPdRjP1pgGppUOQDT9Unu6C0FQ8PA";
+		var urlGeolocating = "https://www.googleapis.com/geolocation/v1/geolocate?&key=" + process.env.MAPS_API_KEY;
 
 		// calling geolocation api for user location
 		// SOMETHINGS NOT WORKING
-		var [locatingError, locatingResponse, locatingBody] = await captureRequestData(urlGeolocating, "POST");
+    var [locatingError, locatingResponse, locatingBody] = await captureRequestData(urlGeolocating, "POST");
+    
 		if (!locatingError && locatingResponse.statusCode === 200) {
 			var parsedLocatingBody = JSON.parse(locatingBody);
 			var userLat = parsedLocatingBody.location.lat;
 			var userLng = parsedLocatingBody.location.lng;
-			res.render("campgrounds/show.ejs", {campground: foundCampground, address: foundCampground.address, userLat: userLat, userLng: userLng});
+			res.render("campgrounds/show.ejs", {campground: foundCampground, address: foundCampground.address, userLat: userLat, userLng: userLng, API_URL: "https://maps.googleapis.com/maps/api/js?key=" + process.env.MAPS_API_KEY + "&callback=initMap" 
+    });
 		} else if (locatingError) {
 			console.log(locatingError);
 		}

@@ -7,9 +7,12 @@
 		<div class="col-md-3">
 			<p class="lead">YelpCamp</p>
 			<div class="list-group">
-				<li class="list-group-item active">infor 1</li>
-				<li class="list-group-item">infor 1</li>
-				<li class="list-group-item">infor 1</li>
+        <li class="list-group-item active">Campground Overview</li>
+        <!-- Could use these for other info maybe or details, doesnt do anything yet -->
+        <li class="list-group-item">Details</li>
+        
+				<!-- <li class="list-group-item">infor 1</li>
+				<li class="list-group-item">infor 1</li> -->
 			</div>
 					<!-- MAPS API ADDING A MAP -->
 			<div id="map"></div>
@@ -132,6 +135,7 @@
 
 		
   </script>
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyASehAPdRjP1pgGppUOQDT9Unu6C0FQ8PA&callback=initMap">
+
+  <script async defer src="<%=API_URL%>" >
 
 <%- include("../partials/footer.ejs"); %>
