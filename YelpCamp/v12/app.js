@@ -35,7 +35,14 @@ mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 mongoose.set('useUnifiedTopology', true);
 
-mongoose.connect(process.env.DB_URI);
+uriString = process.env.DB_URI || "mongodb://localhost/YelpCamp"
+mongoose.connect(uriString, (err, res) => {
+	if (err) { 
+		console.log ('ERROR connecting to: ' + uriString + ': ' + err);
+	} else {
+		console.log ('Succeeded connection to: ' + uriString);
+	}
+});
 
 app.use(bp.urlencoded({extended: true}));
 app.use(flash());
@@ -56,7 +63,7 @@ app.use(methodOverride("_method"));
 // PASSPORT CONFIGURATION ----------------------------------------------------
 
 app.use(require("express-session")({
-	secret: "Pan on the kitchen stove",
+	secret: process.env.EXPRESS_SESSION_SECRET,
 	resave: false,
 	saveUninitialized: false // ?? just needed
 }));
