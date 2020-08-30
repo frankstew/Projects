@@ -1,7 +1,7 @@
 var mongoose = require("mongoose");
 var passportLocalMongoose = require("passport-local-mongoose");
 
-var commentSchema = new mongoose.Schema({
+var reviewSchema = new mongoose.Schema({
 	text: String,
 	// author: {
 	// 	id: {
@@ -10,9 +10,12 @@ var commentSchema = new mongoose.Schema({
 	// 	},
 	// 	username: String
   // }
-  username: String
+  username: String,
+  rating: Number,
+  likes: Number,
+  dislikes: Number
 });
 
-commentSchema.plugin(passportLocalMongoose); // needed for mongoose stuff
+reviewSchema.plugin(passportLocalMongoose); // needed for mongoose stuff
 
-module.exports = mongoose.model("Comment", commentSchema);
+module.exports = mongoose.model("Review", reviewSchema);

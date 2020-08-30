@@ -4,31 +4,25 @@ import AddCampgroundJumbotron from "./addCampgroundJumbotron.js";
 import DefaultJumbotron from "./defaultJumbotron.js";
 import CampgroundCard from "./campgroundCard.js";
 
-class IndexPage extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      rowStyle: {
-        display: "flex",
-        flexWrap: "wrap"
-      }
-    }
-  }
+const IndexPage = (props) => {
+  let rowStyle = {
+          display: "flex",
+          flexWrap: "wrap"
+        }
 
-  render() {
     return (
       <div>
         <div className="container">
           <header className="jumbotron">
             <div className="container">
-              {this.props.addingCampground ?
+              {props.addingCampground ?
                 <AddCampgroundJumbotron
-                  handleChange={this.props.handleChange}
-                  handleCampgroundSubmit={this.props.handleCampgroundSubmit}
-                  toggleAddCampground={this.props.toggleAddCampground} 
+                  handleChange={props.handleChange}
+                  handleCampgroundSubmit={props.handleCampgroundSubmit}
+                  toggleAddCampground={props.toggleAddCampground} 
                 /> : 
                 <DefaultJumbotron
-                  toggleAddCampground={this.props.toggleAddCampground}
+                  toggleAddCampground={props.toggleAddCampground}
                 />
               } 
             </div>
@@ -40,11 +34,11 @@ class IndexPage extends Component {
                 <h1 key={index}>{cg.name}</h1>
               );
             })} */}
-            <div className = "row text-center" style={this.state.rowStyle}>
+            <div className = "row text-center" style={rowStyle}>
 
 {/* ternary bc need to wait for get request first */}
-              {this.props.campgrounds ? 
-                this.props.campgrounds.map((campground, index) => {
+              {props.campgrounds ? 
+                props.campgrounds.map((campground, index) => {
                   return (
                     <CampgroundCard 
                       campground={campground}
@@ -59,6 +53,5 @@ class IndexPage extends Component {
         </div>
     );
   }
-}
 
 export default IndexPage;

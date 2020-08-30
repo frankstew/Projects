@@ -19,15 +19,37 @@
 - why is show page just being rendered continuosly?? when parent state changes, automatically rerenders every child component. So API calls inside of child components that change parents state cause continuous re-renders, used render prop in <Route />s to call with some conditionals to stop it.
 - add show page, without maps.
 - add destroy campground route
+- add edit campground route, use defaultValue not value to fix read only input issue. Need to fix the rerendering of the show page after update, unless I do an ugly fix to getCampgroundShowData to force it to update, the setState call gets skipped so the changes dont show on the rerender bc of the conditional stuff in getCampgroundShowData to prevent infinite looping, gotta be a way around it, gotta be a better way but whatever check I do seems to cause infinite rerender, works for now. put setState at end of handleCampgroundSubmit edit instead of get CampgroundShowData(forceUpdate), less confusing
+- style edit campground, make live changes to text (and image later), using some setState stuff probably, I think the CG is saved in state, so no need for api calls, just setState with onChange, works beautifully, only had to change names so that onChange setState to campgroundToShow, and change form names so it all matched up properly AND IT WORKS FOR IMAGES TOO LMFAO
+- add comment routes, index (show page is index), new (DONE), Create(DONE, had to popul8 comments in put route so that they would show up without having to call campground SHOW route again), edit(no edit or upd8, most sites dont allow comment edits, and its complicated to show only edit your comment), update(see edit), destroy(wanted to be able to use findoneandupdate but was weird, it works but seems to rerender entire page instead of just comments stuff, idk if its like that for all of it who knows), no show (could make a show page for replies, if we want to do replies)
+- add stars to reviews
+- add separate review container (like yelp) so dont 
+accidentally delete review when trying to post one
+- support multi paragraph reviews
+- add reaction to reviews (agree/disagree, like/dislike) (add # likes/dislikes to review model, buttons to show page, and functionality for those buttons, need a put route for like/dislike)
+- LIKES: make a new API (all routes, well all the relevant routes, for likes/dislikes) need delete and stuff for auth
+- should probably allow review edits, dont want to add and edit at same time, use a state var, reviewIDToEdit along with a check in Review comp to see if there is an id to edit, and if it is equal to that review, then allow that review to be edited, have a put route that handles likes, dislikes, and edits
+
+- refactor:
+  - use express router
+  - make a default not found route
+  
+  - separate react fcns from App comp, getting really messy, maybe redux? redux, watch cj convert his api app, then conver this bad boi to redux babeeee
+
+GAMEPLAN:
+ - hide api keys from v12 using dotenv
+ - commit and push v12 to github
+ - deploy v12 (api keys ccan be hidden there easy peezy)
+
+ - commit v12_react as is after finishing comments (before auth routes)
+ - continue working on v12_react
 
 
-- add edit campground route, use defaultValue not value to fix read only input issue. Need to fix the rerendering of the show page after update, unless I do an ugly fix to getCampgroundShowData to force it to update, the setState call gets skipped so the changes dont show on the rerender bc of the conditional stuff in getCampgroundShowData to prevent infinite looping, gotta be a way around it
-- add comment routes
-- add image preview to edit show page
+
+
+- auth(go through with fine toothed comb to see what needs auth and what doesnt, take notes)
+- flash errors
 - make all bind statements inside of App constructor
-
-
-- make handleChange one fcn for edit and add
 - add maps to show page
 - add campground and comment drafts for dif users
 - figure out dif styling, css modules, styled components, css in js, material ui
@@ -41,5 +63,9 @@
     }
 - fix multiple axios calls (double) and double renders for show and index page bc of axios calls
 - Make sure apis are safe in v12 and v12_react
+- look at size of defalutjumbotron
+- make entire campground card clickable, not just button at the bottom
+- make only able to like or dislike, not both, only do it once.
+
 
 

@@ -20,10 +20,10 @@ const campgroundSchema = new mongoose.Schema({
 	// 	},
 	// 	username: String
 	// },
-	comments: [
+	reviews: [
 		{
 			type: mongoose.Schema.Types.ObjectId,
-			ref: "Comment"
+			ref: "Review"
 		}
 	]
 });

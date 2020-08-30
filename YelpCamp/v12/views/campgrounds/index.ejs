@@ -21,7 +21,6 @@
 				<div class="caption">
 					<h4><%= campgrounds[i].name %></h4>
 					<h4><%= campgrounds[i].description %></h4>
-					<!-- Want a form here to send id to SHOW route -->
 					<% var action = "/campgrounds/" + campgrounds[i]._id; %>
 					<form action=<%=action%> method="GET">
 						<input class="btn btn-primary btn-sm" type="submit" value="See more info about <%= campgrounds[i].name %>">

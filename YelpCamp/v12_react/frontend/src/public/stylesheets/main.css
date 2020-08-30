@@ -52,11 +52,54 @@
   border-color: #DE8A02 !important;
 }
 
+.delete-review {
+  margin-top: 1rem
+  /* display: inline; */
+}
+
+.not-found-container {
+  height: 20rem;
+  position: relative;
+}
+
+.not-found-text {
+  color: white;
+  text-align: center;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.review-button {
+  display: inline, !important;
+}
+
+.review-rating {
+
+}
+
+.review-text {
+  padding-top: 1rem;
+  /* for making white space a single space */
+  white-space: pre-line;
+  /* for preserving all white space */
+  /* white-space: pre-wrap;  */
+  /* text-align: center; */
+}
+
+.secondary-font {
+  font-family: 'Cabin', sans-serif !important;
+}
+
 .title-font {
   font-family: 'BioRhyme', serif !important;
 }
 
-.secondary-font {
+.trademark {
+  color: white;
   font-family: 'Cabin', sans-serif !important;
 }
 

@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import axios from "axios";
-
 import { Switch, Route, Link, BrowserRouter as Router, Redirect } from "react-router-dom";
 import LandingPage from "./landing.js";
 import IndexPage from "./campgrounds/index.js";
 import Navbar from "./layouts/navbar.js";
-import ShowPage from "./campgrounds/show.js"
+import ShowPage from "./campgrounds/showPage.js";
+import appFuncObj from "../appFuncs.js";
+import PageNotFound from "./notFound.js";
+// use "export default" with "import" and "module.exports" with "require"
+
 // import { match } from 'assert';
 
 // proxy in package.json doesnt work but this adds localhost 5000 to all requests
@@ -20,142 +23,27 @@ class App extends Component {
       campgrounds: null,
       editingCampground: false,
       addingCampground: false,
+      addingReview: false,
       redirectToCampgrounds: false,
-      newCampground: {
-        CampgroundName: "",
-        CampgroundImg: "",
-        CampgroundDescription: ""
-      }
+      newCampground: {},
+      reviewIDToEdit: ""
     };
-  }
-  // handleClick(event) {
-  //   event.preventDefault();
-  //   // if a request is made and it cant find it on the frontend, it will look to localhost 5000 bc that is what the proxy is set to
-  //   axios.get("/").then((response) => {
-  //     this.setState({
-  //       message: response.data
-  //     });
-  //   }).catch(() => {
-  //     console.log("Error");
-  //   });
-  // }
-
-  handleAddCampgroundChange(e) {
-    e.persist();
-    let value = e.target.value;
-    this.setState(prevState => ({
-      newCampground: {
-        ...prevState.newCampground,
-        [e.target.name]: value
-      }
-    }));
+    this.handleAddCampgroundChange = appFuncObj.handleAddCampgroundChange.bind(this);
+    this.handleEditCampgroundChange = appFuncObj.handleEditCampgroundChange.bind(this);
+    this.getCampgroundData = appFuncObj.getCampgroundData.bind(this);
+    this.getCampgroundShowData = appFuncObj.getCampgroundShowData.bind(this);
+    this.deleteReview = appFuncObj.deleteReview.bind(this);
+    this.likeReview = appFuncObj.likeReview.bind(this);
+    this.dislikeReview = appFuncObj.dislikeReview.bind(this);
+    this.deleteCampground = appFuncObj.deleteCampground.bind(this);
+    this.toggleAddCampground = appFuncObj.toggleAddCampground.bind(this);
+    this.toggleEditCampground = appFuncObj.toggleEditCampground.bind(this);
+    this.toggleAddReview = appFuncObj.toggleAddReview.bind(this);
+    this.toggleEditReview = appFuncObj.toggleEditReview.bind(this);
+    this.handleCampgroundSubmit = appFuncObj.handleCampgroundSubmit.bind(this);
+    this.handleReviewSubmit = appFuncObj.handleReviewSubmit.bind(this);
   }
 
-  handleEditCampgroundChange(e) {
-    e.persist();
-    let value = e.target.value;
-    this.setState(prevState => ({
-      editedCampground: {
-        ...prevState.editedCampground,
-        [e.target.name]: value
-      }
-    }));
-  }
-
-  async getCampgroundData() {
-    const response = await axios.get("/campgrounds").catch((err) => {
-      console.log("axios error: " + err);
-    });
-
-    if (response && (JSON.stringify(response.data.campgrounds) != JSON.stringify(this.state.campgrounds))) {
-      this.setState({
-        campgrounds: response.data.campgrounds
-      });
-    } 
-  }
-
-  async getCampgroundShowData(campgroundID, forceUpdate = false) {
-    const response = await axios.get("/campgrounds/" + campgroundID).catch((err) => {
-      console.log("axios show page error: " + err);
-    });
-
-    if (response && ((this.state.campgroundToShow._id !== campgroundID) || forceUpdate)) {
-      this.setState({
-        campgroundToShow: response.data
-      })
-    }
-  }
-
-  async deleteCampground(campgroundID) {
-    const response = await axios.delete("/campgrounds/" + campgroundID).catch((err) => {
-      console.log("axios destroy error:" + err);
-    });
-
-    if (response) {
-      await this.getCampgroundData().catch((err) => {
-        console.log("getCampgroundData error: " + err);
-      });
-      console.log("Campground Destroyed");
-    }
-  }
-
-  toggleAddCampground(e) {
-    e.preventDefault();
-    const updatedAddingCampground = !this.state.addingCampground;
-    this.setState({
-      addingCampground: updatedAddingCampground
-    });
-  }
-
-  toggleEditCampground(e) {
-    e.preventDefault();
-    this.setState({
-      editingCampground: !this.state.editingCampground
-    });
-  }
-
-  async handleCampgroundSubmit(e, addOrEdit, campgroundID = null) {
-    e.preventDefault();
-
-    // if add campground
-    if (addOrEdit === "ADD") {
-      await axios.post("/campgrounds", this.state.newCampground).then((response) => {
-        // console.log(response);
-        this.setState({
-          addingCampground: !this.state.addingCampground,
-          redirectToCampgrounds: true
-        });
-      }).catch((err) => {
-        console.log("axios post error: " + err);
-      });
-      // if edit campground
-    } else if (addOrEdit === "EDIT") {
-      
-      const editedCampground = {
-        updatedCampgroundName: e.target.CampgroundName.value,
-        updatedCampgroundImg: e.target.CampgroundImg.value,
-        updatedCampgroundDescription: e.target.CampgroundDescription.value
-      }
-
-      const response = await axios.put("/campgrounds/" + campgroundID, {
-        editedCampground
-      }).catch((err) => {
-        console.log("axios put error: " + err);
-      });
-      
-      if (response) {
-        this.setState({
-          editingCampground: !this.state.editingCampground
-        });
-        // true to force the campgroundToShow to update, fix l9r
-        this.getCampgroundShowData(campgroundID, true);
-        console.log(response);
-      }
-    }
-    
-
-    
-  }
 
   render() {
     return (
@@ -180,36 +68,48 @@ class App extends Component {
                 </div>
               );
             } else {
-              return (<h1>Loading...</h1>);
+              return (<h1 className="secondary-font">Loading...</h1>);
             }
           }} />
 
           <Route exact path="/campgrounds/:id" 
             render={(routeProps) => {
               this.getCampgroundShowData(routeProps.match.params.id);
-              if (this.state.campgroundToShow._id === routeProps.match.params.id) {
+              if ((this.state.campgroundToShow._id === routeProps.match.params.id)) {
                 return (
                   <div>
                     <Navbar />
                     <ShowPage 
-                    handleCampgroundSubmit={this.handleCampgroundSubmit.bind(this)}
-                      handleChange={this.handleEditCampgroundChange.bind(this)}
+                    //data
                       campground={this.state.campgroundToShow}
-                      getCampgroundShowData={this.getCampgroundShowData.bind(this)}
-                      toggleEditCampground={this.toggleEditCampground.bind(this)}
                       editingCampground={this.state.editingCampground}
+                      addingReview={this.state.addingReview}
                       {...routeProps}
+                      reviewIDToEdit={this.state.reviewIDToEdit}
+                    //fcns
+                      deleteReview={this.deleteReview.bind(this)}
+                      handleReviewSubmit={this.handleReviewSubmit.bind(this)}
+                      handleCampgroundSubmit={this.handleCampgroundSubmit.bind(this)}
+                      handleEditCampgroundChange={this.handleEditCampgroundChange.bind(this)}
+                      getCampgroundShowData={this.getCampgroundShowData.bind(this)}
                       deleteCampground={this.deleteCampground.bind(this)}
+                    //toggle fcns
+                      toggleEditCampground={this.toggleEditCampground.bind(this)}
+                      toggleAddReview={this.toggleAddReview.bind(this)}
+                      likeReview={this.likeReview.bind(this)}
+                      dislikeReview={this.dislikeReview.bind(this)}
+                      toggleEditReview={this.toggleEditReview.bind(this)}
                     />
                   </div>
                 );
               } else {
-                return (<h1>Loading...</h1>);
+                return (<h1 className="secondary-font">Loading...</h1>);
               }
             }}  
           /> 
           
         </Switch>
+        <Route component={PageNotFound} />
       </Router>
     );
   }

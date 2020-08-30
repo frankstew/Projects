@@ -15,6 +15,11 @@ const ShowCampgroundThumbnail = (props) => {
 
           <button className="btn btn-warning secondary-font" onClick={props.toggleEditCampground}>Edit Campground</button>
           <Link to="/campgrounds" className="btn btn-danger secondary-font" onClick={() => {props.deleteCampground(props.campground._id)}}>Delete Campground</Link>
+          {props.addingReview ? 
+          <span></span>
+          :
+          <button className="btn btn-success pull-right" onClick={props.toggleAddReview}>Leave a review</button>
+          }
           {/* <p><em>Submitted by {campground.author.username}</em></p> */}
 
         </div>
