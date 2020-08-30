@@ -1,4 +1,9 @@
 # YelpCamp
+## v12 deployed via heroku at https://guarded-beach-14626.herokuapp.com/
+--------------------------------------------------------
+
+- Add landing page
+- Add campgrounds page that lists all campgrounds
 
 - Add landing page
 - Add campgrounds page that lists all campgrounds
