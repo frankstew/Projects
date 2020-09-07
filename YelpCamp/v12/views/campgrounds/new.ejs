@@ -2,9 +2,9 @@
 
 <div class="container">
 	<div class="row">
-		<h1 style="text-align: center">Add a New Campground</h1>
+		<h1 style="text-align: center" class="title-font against-background">Add a New Campground</h1>
 		<div style="width: 30%; margin: 35px auto;">
-			<form name="newCampgroundForm" action="/campgrounds" method="POST">
+			<form name="newCampgroundForm" action="/campgrounds" method="POST" enctype="multipart/form-data">
 				<div class="form-group">
 					<input class="form-control" type="text" name="CampgroundName" placeholder="Campground name" required>
 				</div>
@@ -14,14 +14,15 @@
 				</div>
 
 				<div class="form-group">
-					<input class="form-control" type="text" name="CampgroundImage" placeholder="image url" required>
+          <label for="image" class="against-background">Image</label>
+					<input class="form-control" type="file" id="image" name="CampgroundImage" accept="image/*" required>
 				</div>
 				
 				<div class="form-group">
 					<input class="form-control" type="text" name="CampgroundDescription" placeholder="Description">
 				</div>
 
-				<h1>Location</h1>
+				<h1 class="title-font against-background">Location: Address or coordinates</h1>
 				<div class="form-group">
 					<input class="form-control" class="location" type="text" name="CampgroundAddress" placeholder="Address">
 				</div>
@@ -34,9 +35,9 @@
 					<input class="form-control" class="location" type="number" name="CampgroundLongitude" placeholder="longitude" step="0.000001">
 				</div>
 				
-				<input type="button" value="Add Campground" class="btn btn-lg btn-primary btn-block" onclick="validateAndSend()">
+				<input type="button" value="Add Campground" class="btn btn-lg btn-primary btn-block secondary-font" onclick="validateAndSend()">
 			</form>
-			<a href="/campgrounds">Go back</a>
+			<a href="/campgrounds" class="secondary-font">Go back</a>
 		</div>
 	</div>
 </div>

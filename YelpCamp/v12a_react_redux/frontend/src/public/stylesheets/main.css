@@ -1,0 +1,137 @@
+#backgroundChange {
+  background-color: #02394A;
+}
+
+.btn {
+  margin: 0px 0.3rem;
+  white-space:normal !important;
+  word-wrap: break-word;
+}
+
+.btn-primary, .btn-primary:active, .btn-primary:visited {
+  background-color: #369656 !important;
+  border-color: #369656 !important;
+}
+
+.btn.btn-primary:hover {
+  background-color: #31874D !important;
+  border-color: #31874D !important;
+
+}
+
+.btn-danger, .btn-danger:active, .btn-danger:visited {
+  background-color: #E61D0F !important;
+  border-color: #E61D0F !important;
+}
+
+.btn.btn-danger:hover {
+  background-color: #D31B0D !important;
+  border-color: #D31B0D !important;
+
+}
+
+.btn-success, .btn-success:active, .btn-success:visited {
+  
+  background-color: #595D88 !important;
+  border-color: #595D88 !important;
+}
+
+.btn.btn-success:hover {
+  background-color: #51547B !important;
+  border-color: #51547B !important;
+}
+
+.btn-warning, .btn-warning:active, .btn-warning:visited {
+  
+  background-color: #F29602 !important;
+  border-color: #F29602 !important;
+}
+
+.btn.btn-warning:hover {
+  background-color: #DE8A02 !important;
+  border-color: #DE8A02 !important;
+}
+
+.delete-review {
+  margin-top: 1rem
+  /* display: inline; */
+}
+
+.not-found-container {
+  height: 20rem;
+  position: relative;
+}
+
+.not-found-text {
+  color: white;
+  text-align: center;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.review-button {
+  display: inline, !important;
+}
+
+.review-rating {
+
+}
+
+.review-text {
+  padding-top: 1rem;
+  /* for making white space a single space */
+  white-space: pre-line;
+  /* for preserving all white space */
+  /* white-space: pre-wrap;  */
+  /* text-align: center; */
+}
+
+.secondary-font {
+  font-family: 'Cabin', sans-serif !important;
+}
+
+.title-font {
+  font-family: 'BioRhyme', serif !important;
+}
+
+.trademark {
+  color: white;
+  font-family: 'Cabin', sans-serif !important;
+}
+
+
+
+
+.thumbnail img{
+	width: 100%;
+}
+
+.thumbnail {
+	padding: 0;
+}
+
+.thumbnail .caption-full {
+	padding: 9px;
+}
+
+.delete-form {
+	display: inline;
+}
+
+/* FOR MAPS API */
+	/* Always set the map height explicitly to define the size of the div
+	 * element that contains the map. */
+#map {
+  height: 40rem;
+  width: 100%;
+}
+	/* Optional: Makes the sample page fill the window. */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}

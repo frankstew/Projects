@@ -15,8 +15,11 @@ var express    		= require("express"),
 	seedDB 			= require("./seeds.js"),
 	flash 			= require("connect-flash"),
 	request			= require("request"),
-	rp 				= require("request-promise-any");
-  require('dotenv').config()
+  rp 				= require("request-promise-any");
+
+require('dotenv').config();
+
+
 
 	
 
@@ -34,8 +37,9 @@ mongoose.set('useNewUrlParser', true);
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 mongoose.set('useUnifiedTopology', true);
-
-uriString = process.env.DB_URI || "mongodb://localhost/YelpCamp"
+// mongoose connection
+const localHostURL = "mongodb://localhost/YelpCamp";
+uriString = process.env.DB_URI || localHostURL;
 mongoose.connect(uriString, (err, res) => {
 	if (err) { 
 		console.log ('ERROR connecting to: ' + uriString + ': ' + err);
@@ -43,6 +47,8 @@ mongoose.connect(uriString, (err, res) => {
 		console.log ('Succeeded connection to: ' + uriString);
 	}
 });
+
+
 
 app.use(bp.urlencoded({extended: true}));
 app.use(flash());

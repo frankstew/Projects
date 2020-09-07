@@ -3,15 +3,30 @@
 <div class="container">
 	<header class="jumbotron">
 		<div class="container">
-			<h1>Welcome to YelpCamp</h1>
-			<p>View thousands of campgrounds from all over the world</p>
-			<p>
-				<a class="btn btn-primary btn-lg" href="/">Back to landing page</a>
-				<a class="btn btn-primary btn-lg" href="/campgrounds/new">Add a New Campground</a>
-			</p>
+			<h1 class="title-font">Welcome to YelpCamp</h1>
+			<p class="secondary-font">View thousands of campgrounds from all over the world</p>
+			
+      <a class="btn btn-primary btn-lg secondary-font" href="/">Back to landing page</a>
+      <a class="btn btn-primary btn-lg secondary-font" href="/campgrounds/new">Add a New Campground</a>
+      
+      <form action="/campgrounds" method="GET" class="">
+        <div class="form-group">
+            <input style="width: 60%;" class="active-cyan-4 mb-4 form-control" type="text" placeholder="Search Campgrounds" name="search" aria-label="Search" onchange>
+            <input type="submit" value="Search" class="btn btn-info">
+        </div>
+      </form>
 		</div>
 	</header>
-
+  <% if (noMatch == true) { %>
+    <div class="row text-center">
+      <div class="col-md-12">
+          <h1 class="against-background title-font">No campgrounds found</h1>
+      </div>
+    </div>
+    
+    
+  <% } %>
+  
 	<!-- display is a temp fix maybe text not center -->
 	<div class="row text-center" style="display:flex; flex-wrap: wrap;">
 		<% for (var i = 0; i < campgrounds.length; i++) { %>
@@ -19,11 +34,11 @@
 			<div class="thumbnail">
 				<img src="<%= campgrounds[i].img %>">
 				<div class="caption">
-					<h4><%= campgrounds[i].name %></h4>
-					<h4><%= campgrounds[i].description %></h4>
+					<h4 class="title-font"><%= campgrounds[i].name %></h4>
+					<h4 class="secondary-font"><%= campgrounds[i].description %></h4>
 					<% var action = "/campgrounds/" + campgrounds[i]._id; %>
 					<form action=<%=action%> method="GET">
-						<input class="btn btn-primary btn-sm" type="submit" value="See more info about <%= campgrounds[i].name %>">
+						<input class="btn btn-primary btn-sm secondary-font" type="submit" value="See more info about <%= campgrounds[i].name %>">
 						<!-- <a href=<%= action %> class="btn btn-primary btn-sm" type="submit">See more info about <%= //campgrounds[i]["name"] %></a> -->
 
 					</form>

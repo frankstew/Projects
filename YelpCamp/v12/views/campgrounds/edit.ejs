@@ -2,9 +2,9 @@
 
 <div class="container">
 	<div class="row">
-		<h1 style="text-align: center">Edit <%= campground.name %></h1>
+		<h1 style="text-align: center" class="title-font against-background">Edit <%= campground.name %></h1>
 		<div style="width: 30%; margin: 35px auto;">
-			<form name="editCampgroundForm" action="/campgrounds/<%= campground._id %>/?_method=PUT" method="POST">
+			<form name="editCampgroundForm" action="/campgrounds/<%= campground._id %>/?_method=PUT" method="POST" enctype="multipart/form-data">
 				<div class="form-group">
 					<input class="form-control" type="text" name="campground[name]" value="<%= campground.name%>" placeholder="Add a new Campground" required>
 				</div>
@@ -14,14 +14,15 @@
 				</div>
 				
 				<div class="form-group">
-					<input class="form-control" type="text" name="campground[img]" value="<%= campground.img %>" placeholder="image url" required>
-				</div>
+            <label for="image" class="against-background">Image</label>
+            <input class="form-control" type="file" id="image" name="image" accept="image/*">
+        </div>
 				
 				<div class="form-group">
 					<input class="form-control" type="text" name="campground[description]" value="<%= campground.description %>" placeholder="Description">
 				</div>
 
-				<h1>Location</h1>
+				<h1 class="title-font against-background">Location: Address or coordinates</h1>
 				<div class="form-group">
 					<input class="form-control" type="number" name="campground[address]" placeholder="address" value="<%= campground.address %>">
 				</div>
@@ -34,13 +35,13 @@
 					<input class="form-control" type="number" name="campground[longitude]" placeholder="longitude" step="0.000001" value="<%= campground.longitude %>">
 				</div>
 				
-				<input type="submit" value="Submit Changes" class="btn btn-lg btn-primary btn-block" onclick="validateAndSend()">
+				<input type="submit" value="Submit changes" class="btn btn-lg btn-primary btn-block secondary-font" onclick="validateAndSend()">
 	
             </form>
             <!-- <form action="/campgrounds/<%= campground._id %>/?_method=DELETE" method="POST" id="delete-form">
             <button class="btn btn-danger" id=>Delete <%=campground.name %></button>
             </form> -->
-			<a href="/campgrounds/<%= campground._id %>">Go back</a>
+			<a href="/campgrounds/<%= campground._id %>" class="secondary-font">Go back</a>
 		</div>
 	</div>
 </div>

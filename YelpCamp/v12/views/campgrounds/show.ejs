@@ -1,22 +1,22 @@
 <%- include("../partials/header.ejs"); %>
 
 
-<a class="btn btn-default" href="/campgrounds">Back to campgrounds</a>
+<a class="btn btn-default secondary-font" href="/campgrounds">Back to campgrounds</a>
 <div class="container">
 	<div class="row">
 		<div class="col-md-3">
-			<p class="lead">YelpCamp</p>
+			<p class="lead title-font">YelpCamp</p>
 			<div class="list-group">
-        <li class="list-group-item active">Campground Overview</li>
+        <li class="list-group-item active secondary-font">Campground Overview</li>
         <!-- Could use these for other info maybe or details, doesnt do anything yet -->
-        <li class="list-group-item">Details</li>
+        <li class="list-group-item secondary-font">Details</li>
         
 				<!-- <li class="list-group-item">infor 1</li>
 				<li class="list-group-item">infor 1</li> -->
 			</div>
 					<!-- MAPS API ADDING A MAP -->
 			<div id="map"></div>
-			<div><button class="btn btn-info" id="directions">Directions</button></div>
+			<div><button style="margin-bottom: 2rem" class="btn btn-info secondary-font" id="directions">Directions</button></div>
 			
 		</div>
 		<div class="col-md-9">
@@ -24,15 +24,15 @@
 				<img class="image-responsive" src="<%= campground.img %>">
 				<div class="caption-full">
 					
-					<h4 class="pull-right">$<%= campground.price %>/night</h4>
-					<h4><a href=""><%= campground.name %></a></h4>
-					<p><%= campground.description; %></p>
-					<p><em>Submitted by <%=campground.author.username%></em></p>
+					<h4 class="pull-right secondary-font">$<%= campground.price %>/night</h4>
+					<h4 class="title-font"><%= campground.name %></h4>
+					<p class="secondary-font"><%= campground.description; %></p>
+					<p class="secondary-font"><em>Submitted by <%=campground.author.username%></em></p>
 					
 					<% if (currentUser && campground.author.id.equals(currentUser._id)) { %>
-					<a href="/campgrounds/<%= campground._id %>/edit" class=" btn btn-primary"> Edit <%= campground.name %></a>
+					<a href="/campgrounds/<%= campground._id %>/edit" class="btn btn-primary secondary-font"> Edit <%= campground.name %></a>
 					<form action="/campgrounds/<%= campground._id %>/?_method=DELETE" method="POST" class="delete-form">
-						<button class="btn btn-danger">Delete <%=campground.name %></button>
+						<button class="btn btn-danger secondary-font">Delete <%=campground.name %></button>
 					</form>
 
 					<% } %>
@@ -40,19 +40,19 @@
 			</div>
 			<div class="well">
 				<div class="text-right">
-					<a  class="btn btn-success" href="/campgrounds/<%= campground._id %>/comments/new">Leave a review</a>
+					<a  class="btn btn-success secondary-font" href="/campgrounds/<%= campground._id %>/comments/new">Leave a review</a>
 				</div>
 				<hr>
 				<%for (var i = 0; i < campground.comments.length; i++) { %>
 					<div class="row">
 						<div class="col-md-12">
-							<strong><%= campground.comments[i].author.username %></strong>
-							<span class="pull-right">10 days ago</span>
-							<p><%= campground.comments[i].text %></p>
+							<strong class="secondary-font"><%= campground.comments[i].author.username %></strong>
+							<span class="pull-right secondary-font">10 days ago</span>
+							<p class="secondary-font"><%= campground.comments[i].text %></p>
 							<% if (currentUser && campground.comments[i].author.id.equals(currentUser._id)) { %>
-							<a href="/campgrounds/<%= campground._id %>/comments/<%= campground.comments[i]._id %>/edit"><button class="btn btn-xs btn-warning">edit</button></a>
+							<a href="/campgrounds/<%= campground._id %>/comments/<%= campground.comments[i]._id %>/edit"><button class="btn btn-xs btn-warning secondary-font">edit</button></a>
 							<form action="/campgrounds/<%= campground._id %>/comments/<%= campground.comments[i]._id %>?_method=DELETE" method="POST" class="delete-form">
-								<button class="btn btn-xs btn-danger">Delete</button>
+								<button class="btn btn-xs btn-danger secondary-font">Delete</button>
 							</form>
 							<% } %>
 						
@@ -88,17 +88,17 @@
 		var directionsRenderer = new google.maps.DirectionsRenderer();
 
 		// sets up map initially
-        var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 7,
-          center: coords
+    var map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 7,
+      center: coords
 		});
 		
 		// binding renderer to map
-        directionsRenderer.setMap(map);
+     directionsRenderer.setMap(map);
 
 		// calling function to calculate and show map
-        var onClick = function() {
-          calculateAndDisplayRoute(directionsService, directionsRenderer);
+    var onClick = function() {
+      calculateAndDisplayRoute(directionsService, directionsRenderer);
 		};
 		
 		//make button under map useful
@@ -117,20 +117,20 @@
 	  function calculateAndDisplayRoute(directionsService, directionsRenderer) {
 		// .route
 		directionsService.route(
-            {
-				// get ZERO_RESULTS unless origin and destination are both legit places, like cities
-              origin: new google.maps.LatLng(userLat, userLng), // chicago
-              destination: {query: address},
-              travelMode: 'DRIVING'
-            },
-            function(response, status) {
-              if (status === 'OK') {
-				  // set directions
-                directionsRenderer.setDirections(response);
-              } else {
-                window.alert('Directions request failed due to ' + status);
-              }
-            });
+      {
+  // get ZERO_RESULTS unless origin and destination are both legit places, like cities
+        origin: new google.maps.LatLng(userLat, userLng), // chicago
+        destination: {query: address},
+        travelMode: 'DRIVING'
+      },
+      function(response, status) {
+        if (status === 'OK') {
+    // set directions
+          directionsRenderer.setDirections(response);
+        } else {
+          window.alert('Directions request failed due to ' + status);
+        }
+      });
       }
 
 		

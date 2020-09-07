@@ -1,7 +1,10 @@
 var Campground  = require("../models/campground.js"),
     Comment     = require("../models/comment.js");
 
+
 middlewareObj = {};
+
+
 
 middlewareObj.checkCampgroundOwnership = async function checkCampgroundOwnership(req, res, next) {
 	// if user logged in

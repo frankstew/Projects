@@ -6,7 +6,8 @@ mongoose.set('useCreateIndex', true);
 mongoose.set('useUnifiedTopology', true);
 
 var campgroundSchema = new mongoose.Schema({
-	name: String,
+  name: String,
+  imgID: String,
 	img: String, // img url
 	price: String,
 	address: String,
