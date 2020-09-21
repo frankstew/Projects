@@ -11,7 +11,6 @@ let Review = require("../models/review.js");
 // Campground index route
 router.get("/", async (req, res) => {
   //console.log(req.user);
-  // res.send("does this work");
 	try{
 		var allCampgrounds = await Campground.find({/*name: "idk*/});
 		res.send({campgrounds: allCampgrounds/*, currentUser: req.user*/});

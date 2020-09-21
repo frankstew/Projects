@@ -22,7 +22,7 @@ const AddCampgroundForm = (props) => {
                   <input onChange={props.handleChange} className="form-control" type="text" name="CampgroundDescription" placeholder="Campground description" required />
                 </div>
 
-                  <button type="submit" className="btn btn-primary btn-lg secondary-font" style={{margin: "10px 0px"}}>Add Campground</button>
+                  <button type="submit" className="btn btn-primary btn-lg secondary-font">Add Campground</button>
                   <button className="btn btn-lg btn-danger secondary-font" onClick={props.toggleAddCampground}>Cancel</button>
               </form>
             </div>

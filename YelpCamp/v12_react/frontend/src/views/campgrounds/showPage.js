@@ -8,14 +8,16 @@ import DefaultReviewContainer from "../reviews/defaultReviewContainer.js";
 import AddReviewContainer from "../reviews/addReviewContainer.js"
 
 const ShowPage = (props) => {
+  let buttonStyle = {
+    marginBottom: "3rem"
+  }
   // console.log(props.campground);
   return (
     <div>
-      <Link className="btn btn-default" to="/campgrounds">Back to campgrounds</Link>
+      <Link style={buttonStyle} onClick={() => {props.resetState({addingCampground: false})}} className="btn btn-default" to="/campgrounds">Back to campgrounds</Link>
       <div className="container">
         <div className="row">
           <div className="col-md-3">
-            <p className="lead">YelpCamp</p>
             <div className="list-group">
               <li className="list-group-item active">Campground Info</li>
               <li className="list-group-item">Photos</li>

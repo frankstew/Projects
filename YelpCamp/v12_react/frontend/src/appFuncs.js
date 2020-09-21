@@ -1,4 +1,5 @@
 import axios from "axios";
+import bcrypt from "bcryptjs";
 
 let appFuncObj = {};
 
@@ -50,6 +51,10 @@ appFuncObj.getCampgroundData = async function getCampgroundData() {
   } 
 }
 
+// can setState from anywhere, just gotta pass this bad boi down, used for changing addingCampground when rendering index from show page
+appFuncObj.resetState = function resetState(argsObj) {
+  this.setState(argsObj);
+}
 
 appFuncObj.getCampgroundShowData = async function getCampgroundShowData(campgroundID) {
   const response = await axios.get("/campgrounds/" + campgroundID).catch((err) => {
@@ -206,7 +211,10 @@ appFuncObj.handleReviewSubmit = async function handleReviewSubmit(e, addOrEdit, 
       rating: e.target.rating.value
     }
 
-    response = await axios.put("/campgrounds/" + campgroundID + "/reviews/" + reviewID, {updatedReview: updatedReview}).catch((err) => {
+    response = await axios.put("/campgrounds/" + campgroundID + "/reviews/" + reviewID, 
+    {
+      updatedReview: updatedReview
+    }).catch((err) => {
       console.log("axios put review error: " + err);
     });
   }
@@ -216,6 +224,88 @@ appFuncObj.handleReviewSubmit = async function handleReviewSubmit(e, addOrEdit, 
       addingReview: false,
       reviewIDToEdit: "",
       campgroundToShow: response.data
+    });
+  }
+}
+
+appFuncObj.handleRegisterSubmit = async function handleRegisterSubmit(e) {
+  e.preventDefault();
+  e.persist();
+  let user;
+  // password confirmation
+  let hashedPassword = await bcrypt.hash(e.target.password.value, 10);
+  let passwordConfirmation = await bcrypt.compare(e.target.confirmPassword.value, hashedPassword);
+  if (passwordConfirmation) {
+    user = {
+      username: e.target.username.value,
+      password: e.target.password.value
+    }
+  } else {
+    // if failed register, say so
+    this.setState({
+      //flash message here
+      failedRegister: true
+    });
+    return;
+  }
+  
+  let response = await axios.post("/register", user).catch((err) => {
+    console.log("axios register post error: " + err);
+  });
+
+  if (response) {
+    // if response, didnt fail register
+    this.setState({
+      failedRegister: false
+    });
+    if (response.status === 500) {
+    }
+
+    if (response.status === 200) {
+      this.setState({
+        currentUser: response.data
+      });
+    }
+    // console.log(response);
+  }
+}
+
+appFuncObj.handleLoginSubmit = async function handleLoginSubmit(e) {
+    e.preventDefault();
+    let user = {
+      username: e.target.username.value,
+      password: e.target.password.value
+    }
+
+    let response = await axios.post("/login", user).catch((err) => {
+      this.setState({
+        failedLogin: true
+      });
+      console.log("axios login post error: " + err);
+      
+    });
+
+    if (response) {
+      if (response.status === 500) {
+        console.log(response.data);
+      }
+      if (response.status === 200) {
+        this.setState({
+          currentUser: response.data
+        })
+      }
+    }
+}
+
+appFuncObj.handleLogoutSubmit = async function handleLogoutSubmit(e) {
+  e.preventDefault();
+  let response = await axios.post("/logout").catch((err) => {
+    console.log("axios post logout error: " + err)
+  });
+
+  if (response) {
+    this.setState({
+      currentUser: response.data
     });
   }
 }

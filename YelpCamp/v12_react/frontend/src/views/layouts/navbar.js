@@ -2,6 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const Navbar = (props) => {
+  // let list;
+  // if (props.currentUser) {
+  //   let 
+  // }
   return (
     <nav className="navbar navbar-default">
       <div className="container-fluid">
@@ -10,16 +14,20 @@ const Navbar = (props) => {
         </div>
         
         <div className="collapse navbar-collapse">
+        {props.currentUser && 
           <ul className="nav navbar-nav navbar-right">
-            {/* <% if (!currentUser) { %> */}
-              <li><a href="/register" className="title-font">Sign Up</a></li>
-              <li><a href="/login" className="title-font">Login</a></li>
-            {/* <% } else { %> */}
-              {/* <li><a href="#"><%= currentUser.username %></a></li> */}
-              <li><a href="#" className="title-font">Frank</a></li>
-            <li><a href="/logout" className="title-font">Logout</a></li>
-            {/* <% } %> */}
+            <li><Link to="/campgrounds" className="title-font">{props.currentUser.username}</Link></li>
+            <li><Link to="/campgrounds" className="title-font" onClick={(e) => {props.handleLogoutSubmit(e)}}>Logout</Link></li>
           </ul>
+        }
+
+        {!props.currentUser &&
+          <ul className="nav navbar-nav navbar-right">
+            <li><Link to="/register" className="title-font">Sign Up</Link></li>
+            <li><Link to="/login" className="title-font">Login</Link></li>
+          </ul>
+        }
+          
         </div>
       </div>
     </nav>

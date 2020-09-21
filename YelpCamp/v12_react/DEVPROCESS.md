@@ -29,31 +29,38 @@ accidentally delete review when trying to post one
 - add reaction to reviews (agree/disagree, like/dislike) (add # likes/dislikes to review model, buttons to show page, and functionality for those buttons, need a put route for like/dislike)
 - LIKES: make a new API (all routes, well all the relevant routes, for likes/dislikes) need delete and stuff for auth
 - should probably allow review edits, dont want to add and edit at same time, use a state var, reviewIDToEdit along with a check in Review comp to see if there is an id to edit, and if it is equal to that review, then allow that review to be edited, have a put route that handles likes, dislikes, and edits
-
-- refactor:
-  - use express router
-  - make a default not found route
+- auth:
+  - start with sign up (separate form) doing everything right it seems, but nothing is happening bc I havent set it up yet (show logged in and stuff) but getting to passport.authenticate callback in code so thats cool)
+  - sending req.user back works, maybe just send a loggedIn true? also use authenticate to do anything auth related, that will prob be enough but lets see how others do it, they just send it back, we'll use if currentUser == author
+  - then log in/out (SPA style, form in navbar, prob 2 buttons but dropdown for login, dif page for sign up)
   
-  - separate react fcns from App comp, getting really messy, maybe redux? redux, watch cj convert his api app, then conver this bad boi to redux babeeee
+  - it all works but DROP DOWN FOR LOGIN
+  - add cg (let them see form but not submit without logging in, maybe give a notification that they need to be logged in to submit, but let them see form)
+  - add reviews
+  - edit/delete cg, need to own it also
+  - edit/delete reviews, need to own it also
+  - like/dislike dont necessarily need to be authd, but need to disable them after being clicked, can unlike/undislike but not like twice or like *and* dislike, if auth is the only way then so be it, but it prob isnt
 
-GAMEPLAN:
- - hide api keys from v12 using dotenv
- - commit and push v12 to github
- - deploy v12 (api keys ccan be hidden there easy peezy)
+- *Go through whole app and see what needs flash*
+- flash errors (react-flash-message), really gross way rn, might just take it out and rethink it for a while lmao, need a way to keep it in state and reset it once flash message displays, use a state var obj, flash={danger: "message", success: "message", ...} to determine which flash to use
+- setState at the end too to reset flash in state
+- leave em alone for a while, deal with auth first, try passport
+- use flash for auth errors too
+- *Go through whole app and see what needs flash*
 
- - commit v12_react as is after finishing comments (before auth routes)
- - continue working on v12_react
-
-
-
-
-- auth(go through with fine toothed comb to see what needs auth and what doesnt, take notes)
-- flash errors
-- make all bind statements inside of App constructor
+- style edit cg better
+- fix not found so it shows on any not found, still showing on campgrounds/asdhaso bc still matching campgrounds/:id
 - add maps to show page
+- add search
+- add image upload
+- add multiple photos, make photos section clickable and work
+- make entire campground card clickable, not just button at the bottom
+- make only able to like or dislike, not both, only do it once.
 - add campground and comment drafts for dif users
-- figure out dif styling, css modules, styled components, css in js, material ui
+- switch to redux
+- *figure out dif styling, css modules, styled components, css in js, material ui*
 - use hooks to get rid of redirect error, and make everything nicer and learn hooks
+- xstate?
 - get rid of all try catch blocks, change to 
     var variable = await thing.catch((err) => {
       handle error;
@@ -63,9 +70,8 @@ GAMEPLAN:
     }
 - fix multiple axios calls (double) and double renders for show and index page bc of axios calls
 - Make sure apis are safe in v12 and v12_react
-- look at size of defalutjumbotron
-- make entire campground card clickable, not just button at the bottom
-- make only able to like or dislike, not both, only do it once.
+- look at size of defaultjumbotron
+
 
 
 
