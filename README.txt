@@ -33,12 +33,3 @@ Compile and run with algs4.jar added to the path, javac -cp ;algs4.jar <filename
 TODO:
 - Refactor.
 - Play with priority functions for optimaal solution to ALL puzzles.
-
-YelpCamp:
-A simple Yelp clone, Yelp for campsites. 
-Uses node with mongodb and express.
-Adheres to RESTful standards.
-
-TODO:
-Implements authemtication.
-Style.
